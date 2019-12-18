@@ -1,0 +1,13 @@
+{
+  "WebDriverType": "chrome",
+  "WaitTimeoutByDefault": 10,
+  "MainPageUrl": "mail.ru",
+  "MailBoxUrl":  "/inbox",
+  "ChromeBrowserPath": "c:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+  "FireFoxPath": "C:\\Program Files\\Mozilla Firefox\\firefox.exe",
+  "user1_email": "testandpest1@mail.ru",
+  "user1_password": "321test",
+  "user2_email": "testandpest2@mail.ru",
+  "user2_password": "654test"
+
+}

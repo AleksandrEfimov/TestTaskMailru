@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29519.181
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestTaskMailru", "TestTaskMailru\TestTaskMailru.csproj", "{9DA72D2C-3A72-48F3-90CD-D576C3DD153B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9DA72D2C-3A72-48F3-90CD-D576C3DD153B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DA72D2C-3A72-48F3-90CD-D576C3DD153B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DA72D2C-3A72-48F3-90CD-D576C3DD153B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DA72D2C-3A72-48F3-90CD-D576C3DD153B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {123A175B-A162-452F-A5E4-8D2DBD2F1863}
+	EndGlobalSection
+EndGlobal
