@@ -9,30 +9,29 @@ using OpenQA.Selenium;
 
 namespace TestTaskMailru
 {
-    class MainPage : Page
+    public class MainPage : Page
     {
 
-        protected Page _page;
-
-        private string _url;
+        public Page Page;
+        public SignInMailBoxForm SignInMailBox;
 
         /// <summary>
         /// Главная страница.
         /// </summary>
         /// <param name="wd"></param>
-        MainPage(IWebDriver wd) : base(wd)
+        public MainPage(IWebDriver wd) : base(wd)
         {
-            _page = new Page(wd);
-            _url = ConfigWD.MainPageUrl;
+            Page = new Page(wd);
+            SignInMailBox = new SignInMailBoxForm(wd);
         }
 
         /// <summary>
         /// Класс описание формы для логина.
         /// </summary>
-        class LoginMailBox
+        public class SignInMailBoxForm
         {
             private Page _page;
-            LoginMailBox(IWebDriver wd)
+            public SignInMailBoxForm(IWebDriver wd)
             {
                 _page = new Page(wd);
             }

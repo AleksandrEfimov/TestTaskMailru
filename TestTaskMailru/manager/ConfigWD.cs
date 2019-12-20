@@ -47,8 +47,13 @@ namespace TestTaskMailru
             }
         }
         internal static TimeSpan WaitTimeout => TimeSpan.FromMilliseconds((int)_config[@"WaitTimeoutByDefault"]);
-        internal static string MainPageUrl => (string)_config[@"MainPageUrl"];
+        internal static string UrlMainPage => (string)_config[@"UrlMainPage"];
         internal static string MailBoxUrl => (string)_config[@"MailBoxUrl"];
+
+        internal static string UserLogin1 => (string)_config["user1_email"];
+        internal static string UserPassword1 => (string)_config["user1_password"];
+        internal static string UserLogin2 => (string)_config["user2_email"];
+        internal static string UserPassword2 => (string)_config["user2_password"];
 
 
 

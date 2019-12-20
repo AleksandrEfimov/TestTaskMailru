@@ -1,6 +1,8 @@
 {
   "WebDriverType": "chrome",
   "WaitTimeoutByDefault": 10,
+  "WaitTimeoutShort": 5,
+  "WaitTimeoutLong": 20,
   "MainPageUrl": "mail.ru",
   "MailBoxUrl":  "/inbox",
   "ChromeBrowserPath": "c:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",

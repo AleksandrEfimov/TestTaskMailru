@@ -9,31 +9,37 @@ using OpenQA.Selenium;
 
 
 namespace TestTaskMailru
-{
-    class MailBoxPage : Page
+{   
+    /// <summary>
+    /// Страница Email.
+    /// </summary>
+    public class MailBoxPage : Page
     {
         protected Page _page;
-        protected NewLetter newLetter;
-
-        private string _url;
+        public NewLetter newLetter;
+                private string _url;
 
         /// <summary>
-        /// Главная страница.
+        /// Конструктор страницы Email.
         /// </summary>
-        /// <param name="wd"></param>
-        MailBoxPage(IWebDriver wd) : base(wd)
+        /// <param name="wd">WebDriver</param>
+        public MailBoxPage(IWebDriver wd) : base(wd)
         {
             _page = new Page(wd);
-            _url = ConfigWD.MainPageUrl;
+            _url = ConfigWD.UrlMainPage;
             newLetter = new NewLetter(wd);
         }
 
         /// <summary>
-        /// Список писем.
+        /// Список строк с письмами..
         /// </summary>
         public List<IWebElement> lettersList => _page.FindElements(By.CssSelector("div#app-canvas div.letter-list a.llc"));
 
-        
+        /// <summary>
+        /// Линк "Выход".
+        /// </summary>
+        public IWebElement LogOut => _page.FindElement(By.Id("PH_logoutLink"));
+
         /*
         /// <summary>
         /// Выбор 1го в списке письма с нужным email
@@ -48,7 +54,6 @@ namespace TestTaskMailru
         /// </summary>
         public List<LetterRow> Letters => 
             _page.FindElements(By.CssSelector("div#app-canvas div.letter-list a.llc")).Select(letter => new LetterRow(letter)).ToList();
-
 
 
         /// <summary>
@@ -91,12 +96,14 @@ namespace TestTaskMailru
         /// Папка Корзина
         /// </summary>
         public IWebElement FldTrash => Folders.Single(d => d.GetAttribute("href").Equals(@"/trash/"));
+
         #endregion
+
 
         /// <summary>
         /// Создание нового письма и действия с ним.
         /// </summary>
-        protected class NewLetter
+        public class NewLetter
         {
             Page _page;
             internal NewLetter(IWebDriver wd)
@@ -105,13 +112,13 @@ namespace TestTaskMailru
             }
 
             /// <summary>
-            /// Поле Кому.
+            /// Поле "Кому".
             /// </summary>
             public IWebElement ToWhom => 
                 _page.FindElement(By.XPath("//div[starts-with(@class, 'fields_container')] // input[starts-with(@class, 'container')]"));
 
             /// <summary>
-            /// Поле Тема
+            /// Поле "Тема".
             /// </summary>
             public IWebElement Subject =>
                 _page.FindElement(By.XPath("//div[starts-with(@class, 'subject__container')] // input[starts-with(@class, 'container')]"));
@@ -125,8 +132,15 @@ namespace TestTaskMailru
             /// <summary>
             /// Кнопка Отправить.
             /// </summary>
-            public IWebElement SentBtn => 
+            public IWebElement SendBtn => 
                 _page.FindElement(By.CssSelector("div.compose-app__footer > div.compose-app__buttons > span.button2.button2_base.button2_primary.button2_hover-support.js-shortcut"));
+
+            /// <summary>
+            /// Окно успешной отправки письма.
+            /// </summary>
+            public IWebElement FormSentSuccess => _page.FindElement(By.CssSelector("div.layer-sent-page"));
+
+
         }
 
         /// <summary>
@@ -136,14 +150,18 @@ namespace TestTaskMailru
         {
             private IWebElement _row;
             
+            /// <summary>
+            /// Превью адресата, темы и боди из строки с письмом в папке "Входящие"
+            /// </summary>
+            /// <param name="letter"></param>
             public LetterRow(IWebElement letter)
             {
                 _row = letter;
             }
 
-            public string Sender => _row.FindElement(By.CssSelector("span.ll-crpt")).GetAttribute("title");
-            public string Subject => _row.FindElement(By.CssSelector("span.llc__subject")).Text;
-            public string Body => _row.FindElement(By.CssSelector("span.llc__snippet")).Text;
+            public string Sender => _row.FindElements(By.CssSelector("span.ll-crpt"))[0].GetAttribute("title");
+            public string Subject => _row.FindElements(By.CssSelector("span.llc__subject"))[0].Text;
+            public string Body => _row.FindElements(By.CssSelector("span.llc__snippet"))[0].Text;
         }
 
 

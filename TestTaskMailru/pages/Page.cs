@@ -9,7 +9,7 @@ using OpenQA.Selenium.Support.PageObjects;
 
 namespace TestTaskMailru
 {
-    class Page
+    public class Page
     {
         internal IWebDriver _webDriver;
         internal WebDriverWait wait; 
