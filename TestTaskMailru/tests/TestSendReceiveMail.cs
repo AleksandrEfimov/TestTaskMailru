@@ -15,8 +15,10 @@ namespace TestTaskMailru
     {
         private string _userLogin1;
         private string _userLogin2;
-        private string _userPasswo1;
-        private string _userPasswo2;
+        private string _userPassword1;
+        private string _userPassword2;
+        private string _mainPageUrl;
+        private string _mailPageUrl;
         private string _subject;
         private string _body;
         private MainPageMethods _mainPageMethods;
@@ -26,8 +28,15 @@ namespace TestTaskMailru
         [OneTimeSetUp]
         public override void PrepareData()
         {
+            rnd = new Random();
             _subject = "subject" + rnd.Next(1000);
             _body = "body" + rnd.Next(1000);
+            _userLogin1 = ConfigWD.cfg.user1_email;
+            _userPassword1 = ConfigWD.cfg.user1_password;
+            _userLogin2 = ConfigWD.cfg.user2_email;
+            _userPassword2 = ConfigWD.cfg.user2_password;
+            _mainPageUrl = ConfigWD.cfg.MainPageUrl;
+            _mailPageUrl = ConfigWD.cfg.MailBoxUrl;
         }
 
         [SetUp]
@@ -35,15 +44,17 @@ namespace TestTaskMailru
         {
             _mainPageMethods = new MainPageMethods(_driver);
             _mailBoxMethods = new MailBoxPageMethods(_driver);
-            _mainPageMethods.GoToUrl(ConfigWD.UrlMainPage);
-            Assert.IsTrue(_mainPageMethods.GetUrl().Equals(ConfigWD.UrlMainPage), $"Переход на {ConfigWD.UrlMainPage} не состоялся.");
+            _mainPageMethods.GoToUrl(ConfigWD.cfg.MainPageUrl);
+            Assert.IsTrue(_mainPageMethods.GetUrl().Contains(ConfigWD.cfg.MainPageUrl), $"Переход на {ConfigWD.cfg.MainPageUrl} не состоялся.");
+            
         }
 
         [Test(Description = "Тестирование отправки письма")]
         public void Test_01_SendReceiveEmail()
         {
-            _mainPageMethods.GoToUrl(ConfigWD.UrlMainPage);
-            _mainPageMethods.SignInEmailBox(ConfigWD.UserLogin1, ConfigWD.UserPassword1);
+            _mainPageMethods.GoToUrl(ConfigWD.cfg.MainPageUrl);
+            _mainPageMethods.SignInEmailBox(ConfigWD.cfg.user1_email, ConfigWD.cfg.user1_password);
+            _mailBoxMethods.WaitDisappearsOctopus();
             _mailBoxMethods.OpenWriteLetterForm();
             _mailBoxMethods.FillField(ConfigWD.UserLogin2, _subject, _body);
             _mailBoxMethods.SendLetterClick();

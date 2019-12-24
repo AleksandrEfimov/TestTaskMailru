@@ -48,7 +48,7 @@ namespace TestTaskMailru
         /// <returns></returns>
         public static IWebDriver GetDriver()
         {
-            switch (ConfigWD.WebDriverType)
+            switch (ConfigWD.GetWebDriverType())
             {
                 case ConfigWD.TypeWD.Chrome:
                     return new ChromeDriver();

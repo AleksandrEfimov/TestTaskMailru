@@ -59,7 +59,12 @@ namespace TestTaskMailru
         /// <summary>
         /// Кнопка "Написать письмо"
         /// </summary>
-        public IWebElement BtnWriteLetter => _page.FindElement(By.CssSelector("span.compose-button"));
+        public IWebElement BtnWriteLetter => _page.FindElement(By.CssSelector("div.sidebar__header span.compose-button"));
+
+        /// <summary>
+        /// Изображение осьминога при загрузке страницы.
+        /// </summary>
+        public IWebElement FuckingOctopusMailru => _page.FindElement(By.Id("octopus-loader"));
 
         #region Папки 
         /// <summary>
@@ -120,8 +125,8 @@ namespace TestTaskMailru
             /// <summary>
             /// Поле "Тема".
             /// </summary>
-            public IWebElement Subject =>
-                _page.FindElement(By.XPath("//div[starts-with(@class, 'subject__container')] // input[starts-with(@class, 'container')]"));
+            public IWebElement Subject => _page.FindElement(By.XPath("//div[starts-with(@class, 'subject__container')] // input[starts-with(@class, 'container')]"));
+            // public IWebElement Subject => _page.FindElement(By.Name("//input[@name='Subject']"));
 
             /// <summary>
             /// Поле для текста письма.
@@ -140,7 +145,7 @@ namespace TestTaskMailru
             /// </summary>
             public IWebElement FormSentSuccess => _page.FindElement(By.CssSelector("div.layer-sent-page"));
 
-
+            
         }
 
         /// <summary>

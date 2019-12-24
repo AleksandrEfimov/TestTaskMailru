@@ -14,6 +14,7 @@ namespace TestTaskMailru
     {
         public IWebDriver WebDriver;
         public WebDriverWait Wait;
+        public WebDriverWait WaitLong;
         public IJavaScriptExecutor Js;
 
 
@@ -22,29 +23,22 @@ namespace TestTaskMailru
             WebDriver = wd;
             Js = (IJavaScriptExecutor)WebDriver;
             Wait = new WebDriverWait(WebDriver, ConfigWD.WaitTimeout);
+            WaitLong = new WebDriverWait(WebDriver, ConfigWD.WaitTimeoutLong);
         }
 
 
-        public void WaitPageLoad(string url = "")
-        {
-            // WebDriverWait specificWait = specificTimeout > -1 ? new WebDriverWait(WebDriver, TimeSpan.FromSeconds(specificTimeout)) : LongWait;
-            try
-            {
-                if (!string.IsNullOrWhiteSpace(url))
-                {
-                    Wait.Until(driver => driver.Url.EndsWith(url));
-                }
+        //public void WaitPageLoad(string url = "")
+        //{
+        //    if (!string.IsNullOrWhiteSpace(url))
+        //    {
+        //        WaitLong.Until(driver => driver.Url.Contains(url));
+        //    }
 
-                Wait.Until(driver => Js.ExecuteScript("return document.readyState").ToString().Equals("complete"));
-            }
-            catch (WebDriverTimeoutException)
-            {
-                throw new Exception($"Страница {url} полностью не загрузилась за {Wait.Timeout.Seconds} секунд.");
-            }
-        }
+        //    Wait.Until(driver => Js.ExecuteScript("return document.readyState").ToString().Equals("complete"));
+        //}
 
         public string GetUrl() => WebDriver.Url;
-        public void GoToUrl(string url) => WebDriver.Navigate().GoToUrl(url);
+        public void GoToUrl(string url) => WebDriver.Navigate().GoToUrl("http://" + url);
         
         
        

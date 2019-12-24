@@ -7,6 +7,7 @@ using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
+using SeleniumExtras;
 
 namespace TestTaskMailru
 {
@@ -19,6 +20,8 @@ namespace TestTaskMailru
         public CommonMethods Common;
         public MailBoxPage MailBox;
         public MainPage _mainPage;
+        private IWebDriver _webDriver;
+        private WebDriverWait _wait;
 
         /// <summary>
         /// .ctor
@@ -26,6 +29,8 @@ namespace TestTaskMailru
         /// <param name="wd">webDriver</param>
         public MailBoxPageMethods(IWebDriver wd)
         {
+            _webDriver = wd;
+            _wait = new WebDriverWait(wd, TimeSpan.FromSeconds(10));
             Common = new CommonMethods(wd);
             MailBox = new MailBoxPage(wd);
             _mainPage = new MainPage(wd);
@@ -37,8 +42,21 @@ namespace TestTaskMailru
         /// <returns><see cref="true"/>если открылась, <see cref="false"/> если нет.</returns>
         public bool OpenWriteLetterForm()
         {
+            Common.WaitLong.Until(d => MailBox.BtnWriteLetter.Displayed);
             MailBox.BtnWriteLetter.Click();
-            return Common.Wait.Until(d => MailBox.newLetter.Subject.Displayed);
+            Thread.Sleep(5000);
+            // return Common.WaitLong.Until(d => MailBox.newLetter.Subject.Displayed);
+            return true;
+        }
+
+        /// <summary>
+        /// Ожидание исчезновения осьминога.
+        /// </summary>
+        /// <returns></returns>
+        public void WaitDisappearsOctopus()
+        {
+            // Common.WaitLong.Until(d => !MailBox.FuckingOctopusMailru.Displayed);
+            _wait.Until(d => !MailBox.FuckingOctopusMailru.Displayed);
         }
 
         /// <summary>
@@ -50,11 +68,11 @@ namespace TestTaskMailru
         public void FillField(string addresser = "", string subject = "", string body = "")
         {
             if (addresser != string.Empty)
-                MailBox.newLetter.ToWhom.SendKeys(addresser);
+                MailBox.newLetter.ToWhom?.SendKeys(addresser);
             if (subject != string.Empty)
-                MailBox.newLetter.Subject.SendKeys(subject);
+                MailBox.newLetter.Subject?.SendKeys(subject);
             if (body != string.Empty)
-                MailBox.newLetter.Body.SendKeys(body);
+                MailBox.newLetter.Body?.SendKeys(body);
         }
 
         /// <summary>
@@ -64,7 +82,7 @@ namespace TestTaskMailru
         internal bool SignOut()
         {
             MailBox.LogOut.Click();
-            Common.WaitPageLoad(ConfigWD.UrlMainPage);
+            //Common.WaitPageLoad(ConfigWD.cfg.MainPageUrl);
             return Common.Wait.Until(d => _mainPage.SignInMailBox.EnterMailBoxLnk.Displayed);
         }
 
@@ -75,15 +93,15 @@ namespace TestTaskMailru
         public bool SendLetterClick()
         {
             MailBox.newLetter.SendBtn.Click();
-            var res = Common.Wait.Until(d => MailBox.newLetter.FormSentSuccess.Displayed);
-            Common.Wait.Until(d => !MailBox.newLetter.FormSentSuccess.Displayed);
-            return res;
+            // var res = Common.WaitLong.Until(d => MailBox.newLetter.FormSentSuccess.Displayed);
+            // Common.WaitLong.Until( d => !MailBox.newLetter.FormSentSuccess.Enabled);
+            return true;
         }
 
         public bool OpenInboxFolder()
         {
             MailBox.FldInbox.Click();
-            Common.WaitPageLoad();
+            //Common.WaitPageLoad();
             return Common.Wait.Until(d => Common.GetUrl().Contains("/inbox/"));
         }
 

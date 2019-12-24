@@ -5,10 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="configWD.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="model\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="DotNetSeleniumExtras.WaitHelpers" Version="3.11.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -23,6 +30,6 @@
     <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="79.0.3945.3600" />
   </ItemGroup>
 
-  <ProjectExtensions><VisualStudio><UserProperties manager_4configwd_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
+  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 
 </Project>

@@ -12,9 +12,9 @@ namespace TestTaskMailru
     public class Page
     {
         internal IWebDriver _webDriver;
-        internal WebDriverWait wait; 
-        internal WebDriverWait waitShort; 
-        internal WebDriverWait waitLong; 
+        internal WebDriverWait wait;
+        internal WebDriverWait waitShort;
+        internal WebDriverWait waitLong;
 
         public Page(IWebDriver driver)
         {
@@ -27,13 +27,13 @@ namespace TestTaskMailru
         /// <param name="loc"></param>
         /// <param name="timeout"></param>
         /// <returns></returns>
-        public IWebElement FinderTime(By loc, int timeout = 1)
+        public IWebElement FinderWithTime(By loc, int timeout = 1)
         {
-                var wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(timeout));
-                var el = _webDriver.FindElements(loc)[0];
-                if (wait.Until(d => el.Displayed))
-                    return el;
-                else return null;
+            var wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(timeout));
+            var el = _webDriver.FindElements(loc)[0];
+            if (wait.Until(d => el.Displayed))
+                return el;
+            else return null;
         }
 
         /// <summary>
@@ -41,7 +41,21 @@ namespace TestTaskMailru
         /// </summary>
         /// <param name="loc"></param>
         /// <returns></returns>
-        public IWebElement FindElement(By loc) => _webDriver.FindElement(loc);
+        public IWebElement? FindElement(By loc) 
+        {
+            try
+            {
+                return _webDriver.FindElement(loc);
+            }
+            catch (NoSuchElementException)
+            {
+                return null;
+            }
+            catch (StaleElementReferenceException)
+            {
+                return null;
+            }
+        }
         
         /// <summary>
         /// Поиск списка элементов.
