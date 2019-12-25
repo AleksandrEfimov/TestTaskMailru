@@ -39,8 +39,8 @@ namespace TestTaskMailru
             _mainPage.SignInMailBox.loginInput?.SendKeys(login + Keys.Enter);
             WaitLong.Until(d => _mainPage.SignInMailBox.passwordInput.Displayed);
             _mainPage.SignInMailBox.passwordInput.SendKeys(password + Keys.Enter);
-            //WaitPageLoad("inbox");
-            return _comMethods.GetUrl().Contains(ConfigWD.cfg.MailBoxUrl) ? true : false;
+            WaitPageLoad("inbox");
+            return _comMethods.GetUrl().Contains(ConfigWD.UrlMailBox) ? true : false;
         }
     }
 }

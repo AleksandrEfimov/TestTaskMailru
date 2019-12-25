@@ -82,7 +82,7 @@ namespace TestTaskMailru
         internal bool SignOut()
         {
             MailBox.LogOut.Click();
-            //Common.WaitPageLoad(ConfigWD.cfg.MainPageUrl);
+            Common.WaitPageLoad(ConfigWD.UrlMainPage);
             return Common.Wait.Until(d => _mainPage.SignInMailBox.EnterMailBoxLnk.Displayed);
         }
 
@@ -93,9 +93,9 @@ namespace TestTaskMailru
         public bool SendLetterClick()
         {
             MailBox.newLetter.SendBtn.Click();
-            // var res = Common.WaitLong.Until(d => MailBox.newLetter.FormSentSuccess.Displayed);
+            var res = Common.WaitLong.Until(d => MailBox.newLetter.FormSentSuccess.Displayed);
             // Common.WaitLong.Until( d => !MailBox.newLetter.FormSentSuccess.Enabled);
-            return true;
+            return res;
         }
 
         public bool OpenInboxFolder()

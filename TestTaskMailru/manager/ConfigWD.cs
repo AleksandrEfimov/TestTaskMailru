@@ -21,7 +21,7 @@ namespace TestTaskMailru
     /// </summary>
     internal static class ConfigWD
     {
-        public static ConfigJSON cfg;
+        private static ConfigJSON cfg;
 
         static ConfigWD()
         {
@@ -70,7 +70,7 @@ namespace TestTaskMailru
         internal static TimeSpan WaitTimeout => TimeSpan.FromSeconds((int)cfg.WaitTimeoutByDefault);
         internal static TimeSpan WaitTimeoutLong => TimeSpan.FromSeconds((int)cfg.WaitTimeoutLong);
         internal static string UrlMainPage => (string)cfg.MainPageUrl;
-        internal static string MailBoxUrl => (string)cfg.MailBoxUrl;
+        internal static string UrlMailBox => (string)cfg.MailBoxUrl;
 
         internal static string UserLogin1 => (string)cfg.user1_email;
         internal static string UserPassword1 => (string)cfg.user1_password;

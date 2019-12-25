@@ -45,6 +45,7 @@ namespace TestTaskMailru
         {
             try
             {
+
                 return _webDriver.FindElement(loc);
             }
             catch (NoSuchElementException)

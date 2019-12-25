@@ -31,12 +31,12 @@ namespace TestTaskMailru
             rnd = new Random();
             _subject = "subject" + rnd.Next(1000);
             _body = "body" + rnd.Next(1000);
-            _userLogin1 = ConfigWD.cfg.user1_email;
-            _userPassword1 = ConfigWD.cfg.user1_password;
-            _userLogin2 = ConfigWD.cfg.user2_email;
-            _userPassword2 = ConfigWD.cfg.user2_password;
-            _mainPageUrl = ConfigWD.cfg.MainPageUrl;
-            _mailPageUrl = ConfigWD.cfg.MailBoxUrl;
+            _userLogin1 = ConfigWD.UserLogin1;
+            _userPassword1 = ConfigWD.UserPassword1;
+            _userLogin2 = ConfigWD.UserLogin2;
+            _userPassword2 = ConfigWD.UserPassword2;
+            _mainPageUrl = ConfigWD.UrlMainPage;
+            _mailPageUrl = ConfigWD.UrlMailBox;
         }
 
         [SetUp]
@@ -44,25 +44,24 @@ namespace TestTaskMailru
         {
             _mainPageMethods = new MainPageMethods(_driver);
             _mailBoxMethods = new MailBoxPageMethods(_driver);
-            _mainPageMethods.GoToUrl(ConfigWD.cfg.MainPageUrl);
-            Assert.IsTrue(_mainPageMethods.GetUrl().Contains(ConfigWD.cfg.MainPageUrl), $"Переход на {ConfigWD.cfg.MainPageUrl} не состоялся.");
+            _mainPageMethods.GoToUrl(_mainPageUrl);
+            Assert.IsTrue(_mainPageMethods.GetUrl().Contains(_mainPageUrl), $"Переход на {_mainPageUrl} не состоялся.");
             
         }
 
         [Test(Description = "Тестирование отправки письма")]
         public void Test_01_SendReceiveEmail()
         {
-            _mainPageMethods.GoToUrl(ConfigWD.cfg.MainPageUrl);
-            _mainPageMethods.SignInEmailBox(ConfigWD.cfg.user1_email, ConfigWD.cfg.user1_password);
+            _mainPageMethods.SignInEmailBox(_userLogin1, _userPassword1);
             _mailBoxMethods.WaitDisappearsOctopus();
             _mailBoxMethods.OpenWriteLetterForm();
-            _mailBoxMethods.FillField(ConfigWD.UserLogin2, _subject, _body);
+            _mailBoxMethods.FillField(_userLogin2, _subject, _body);
             _mailBoxMethods.SendLetterClick();
             _mailBoxMethods.SignOut();
 
-            _mainPageMethods.SignInEmailBox(ConfigWD.UserLogin2, ConfigWD.UserPassword2);
+            _mainPageMethods.SignInEmailBox(_userLogin2,_userPassword2);
             _mailBoxMethods.OpenInboxFolder();
-            Assert.IsTrue(_mailBoxMethods.IsLetterExistInBox(ConfigWD.UserLogin1, _subject, _body), "Тест не обнаружил во входящих письма с требуемыми отправителем, темой или телом письма");
+            Assert.IsTrue(_mailBoxMethods.IsLetterExistInBox(_userLogin1, _subject, _body), "Тест не обнаружил во входящих письма с требуемыми отправителем, темой или телом письма");
         }
 
 

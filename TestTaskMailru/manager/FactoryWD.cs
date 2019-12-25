@@ -36,7 +36,6 @@ namespace TestTaskMailru
                 default:
                     throw new ArgumentException($"Неизвестный тип WebDriver'а: {driverType}");
             }
-            webDriver.Navigate().GoToUrl("http://" + ConfigWD.cfg.MainPageUrl);
             return webDriver;
             
         }
