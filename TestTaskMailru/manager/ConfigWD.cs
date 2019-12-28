@@ -42,6 +42,7 @@ namespace TestTaskMailru
             public int WaitTimeoutByDefault { get; set; }
             public int WaitTimeoutShort { get; set; }
             public int WaitTimeoutLong { get; set; }
+            public int WaitImplicit { get; set; }
             public string MainPageUrl { get; set; }
             public string MailBoxUrl { get; set; }
             public string ChromeBrowserPath { get; set; }
@@ -69,6 +70,7 @@ namespace TestTaskMailru
         }
         internal static TimeSpan WaitTimeout => TimeSpan.FromSeconds((int)cfg.WaitTimeoutByDefault);
         internal static TimeSpan WaitTimeoutLong => TimeSpan.FromSeconds((int)cfg.WaitTimeoutLong);
+        internal static TimeSpan WaitImplicit => TimeSpan.FromSeconds((int)cfg.WaitImplicit);
         internal static string UrlMainPage => (string)cfg.MainPageUrl;
         internal static string UrlMailBox => (string)cfg.MailBoxUrl;
 

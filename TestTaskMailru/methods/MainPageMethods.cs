@@ -36,8 +36,10 @@ namespace TestTaskMailru
         /// <returns></returns>
         public bool SignInEmailBox(string login, string password)
         {
-            _mainPage.SignInMailBox.loginInput?.SendKeys(login + Keys.Enter);
+            _mainPage.SignInMailBox.loginInput.Clear();
+            _mainPage.SignInMailBox.loginInput.SendKeys(login + Keys.Enter);
             WaitLong.Until(d => _mainPage.SignInMailBox.passwordInput.Displayed);
+            _mainPage.SignInMailBox.passwordInput.Clear();
             _mainPage.SignInMailBox.passwordInput.SendKeys(password + Keys.Enter);
             WaitPageLoad("inbox");
             return _comMethods.GetUrl().Contains(ConfigWD.UrlMailBox) ? true : false;

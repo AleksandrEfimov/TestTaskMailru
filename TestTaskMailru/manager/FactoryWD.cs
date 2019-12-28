@@ -36,6 +36,7 @@ namespace TestTaskMailru
                 default:
                     throw new ArgumentException($"Неизвестный тип WebDriver'а: {driverType}");
             }
+            webDriver.Manage().Timeouts().ImplicitWait = ConfigWD.WaitImplicit;
             return webDriver;
             
         }

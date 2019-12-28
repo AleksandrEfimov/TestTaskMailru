@@ -3,12 +3,16 @@
   "WaitTimeoutByDefault": 10,
   "WaitTimeoutShort": 5,
   "WaitTimeoutLong": 20,
+  "WaitImplicit": 5,
   "MainPageUrl": "mail.ru",
-  "MailBoxUrl":  "/inbox",
+  "MailBoxUrl": "/inbox",
   "ChromeBrowserPath": "c:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
   "FireFoxPath": "C:\\Program Files\\Mozilla Firefox\\firefox.exe",
   "user1_email": "testandpest1@mail.ru",
   "user1_password": "321test",
+  "userName1": "userName1",
+  "userFam1": "userFam1",
+  "pseudonym1": "pseudonym1",
   "user2_email": "testandpest2@mail.ru",
   "user2_password": "654test"
 }

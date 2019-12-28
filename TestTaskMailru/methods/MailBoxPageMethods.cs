@@ -68,11 +68,14 @@ namespace TestTaskMailru
         public void FillField(string addresser = "", string subject = "", string body = "")
         {
             if (addresser != string.Empty)
-                MailBox.newLetter.ToWhom?.SendKeys(addresser);
+                MailBox.newLetter.ToWhom.Clear();
+                MailBox.newLetter.ToWhom.SendKeys(addresser);
             if (subject != string.Empty)
-                MailBox.newLetter.Subject?.SendKeys(subject);
+                MailBox.newLetter.Subject.Clear();
+                MailBox.newLetter.Subject.SendKeys(subject);
             if (body != string.Empty)
-                MailBox.newLetter.Body?.SendKeys(body);
+                MailBox.newLetter.Body.Clear();
+                MailBox.newLetter.Body.SendKeys(body);
         }
 
         /// <summary>
@@ -105,11 +108,11 @@ namespace TestTaskMailru
             return Common.Wait.Until(d => Common.GetUrl().Contains("/inbox/"));
         }
 
-        public bool IsLetterExistInBox(string addresser = "", string subject = "", string body = "")
+        public bool IsLetterExistInBox(string addresser = "", string subject = "", string body = "",)
         { 
             var letter = MailBox.Letters.First(d => d.Sender.Equals(addresser));
             if (letter != null)
-                return letter.Subject.Equals(subject) && letter.Body.Contains(body);
+                return (letter.Subject.Equals(subject) && letter.Body.Contains(body));
             else 
                 return false;
         }

@@ -58,8 +58,5 @@ namespace TestTaskMailru
                     throw new Exception("Не поддерживваемый тип драйвера");
             }
         }
-
-
-       
     }
 }

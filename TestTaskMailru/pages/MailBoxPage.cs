@@ -70,12 +70,12 @@ namespace TestTaskMailru
         /// <summary>
         /// "Папка" папка
         /// </summary>
-        private List<IWebElement> Folders => _page.FindElements(By.CssSelector("div#app-canvas div.nav-Folders a.nav__item"));
+        private List<IWebElement> Folders => _page.FindElements(By.CssSelector("div#app-canvas div.nav-folders a.nav__item"));
 
         /// <summary>
         /// Папка Входящие
         /// </summary>
-        public IWebElement FldInbox => Folders.Single(d => d.GetAttribute("href").Equals(@"/inbox/"));
+        public IWebElement FldInbox => Folders.Single(d => d.GetAttribute("href").Contains("/inbox/"));
         /// <summary>
         /// Папка СоцСети
         /// </summary>
