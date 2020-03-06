@@ -1,70 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium.Support.PageObjects;
-
+using System.Collections.Generic;
 
 namespace TestTaskMailru
 {
     public class Page
     {
-        internal IWebDriver _webDriver;
+        protected IWebDriver _webDriver;
         internal WebDriverWait wait;
-        internal WebDriverWait waitShort;
-        internal WebDriverWait waitLong;
 
         public Page(IWebDriver driver)
         {
             _webDriver = driver;
+            wait = new WebDriverWait(driver, ConfigWD.WaitTimeout);
         }
 
         /// <summary>
-        /// 
+        /// Сообщение с предложением устанвоки почтового Виджета.
         /// </summary>
-        /// <param name="loc"></param>
-        /// <param name="timeout"></param>
-        /// <returns></returns>
-        public IWebElement FinderWithTime(By loc, int timeout = 1)
-        {
-            var wait = new WebDriverWait(_webDriver, TimeSpan.FromSeconds(timeout));
-            var el = _webDriver.FindElements(loc)[0];
-            if (wait.Until(d => el.Displayed))
-                return el;
-            else return null;
-        }
+        public IWebElement Bubble => _webDriver.FindElement(By.Id("bubble-home-install"));
 
         /// <summary>
-        /// Поиск элемента.
+        /// Крестик окошка "Уведомлять о новых письмах".
         /// </summary>
-        /// <param name="loc"></param>
-        /// <returns></returns>
-        public IWebElement? FindElement(By loc) 
-        {
-            try
-            {
+        public IList<IWebElement> NotifyANewLetterCloseCross => _webDriver.FindElements(By.XPath("//*/div[@data-test-id='close']"));
 
-                return _webDriver.FindElement(loc);
-            }
-            catch (NoSuchElementException)
-            {
-                return null;
-            }
-            catch (StaleElementReferenceException)
-            {
-                return null;
-            }
-        }
+        /// <summary>
+        /// Крестик окошка "Добавить номера телефона".
+        /// </summary>
+        public IList<IWebElement> NotifyAddPhoneCloseCross => _webDriver.FindElements(By.XPath("//*/div[@data-test-id='cross']"));
         
         /// <summary>
-        /// Поиск списка элементов.
+        /// Крестик уведомления "Браузер Атом"
         /// </summary>
-        /// <param name="loc"></param>
-        /// <returns></returns>
-        public List<IWebElement> FindElements(By loc) => _webDriver.FindElements(loc).ToList();
-        
-
+        public IList<IWebElement> NotifyAtomBrowserCloseCross => _webDriver.FindElements(By.XPath("//*/span[@id='bubble-home-close']"));
     }
 }

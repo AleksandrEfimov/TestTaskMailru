@@ -36,12 +36,13 @@ namespace TestTaskMailru
         /// <returns></returns>
         public bool SignInEmailBox(string login, string password)
         {
-            _mainPage.SignInMailBox.loginInput.Clear();
-            _mainPage.SignInMailBox.loginInput.SendKeys(login + Keys.Enter);
-            WaitLong.Until(d => _mainPage.SignInMailBox.passwordInput.Displayed);
-            _mainPage.SignInMailBox.passwordInput.Clear();
-            _mainPage.SignInMailBox.passwordInput.SendKeys(password + Keys.Enter);
-            WaitPageLoad("inbox");
+            _comMethods.CloseNotifyIfExist();
+            _mainPage.LoginForm.loginInput.Clear();
+            _mainPage.LoginForm.loginInput.SendKeys(login + Keys.Enter);
+            Wait.Until(d => _mainPage.LoginForm.passwordInput.Displayed);
+            _mainPage.LoginForm.passwordInput.Clear();
+            _mainPage.LoginForm.passwordInput.SendKeys(password + Keys.Enter);
+            WaitPageReady("inbox");
             return _comMethods.GetUrl().Contains(ConfigWD.UrlMailBox) ? true : false;
         }
     }

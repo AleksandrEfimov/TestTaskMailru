@@ -17,11 +17,9 @@ namespace TestTaskMailru
     class MailBoxPageMethods
     {
 
-        public CommonMethods Common;
-        public MailBoxPage MailBox;
-        public MainPage _mainPage;
-        private IWebDriver _webDriver;
-        private WebDriverWait _wait;
+        public CommonMethods CommonMethod;
+        public MailBoxPage MailBoxPage;
+        public MainPage MainPage;
 
         /// <summary>
         /// .ctor
@@ -29,38 +27,45 @@ namespace TestTaskMailru
         /// <param name="wd">webDriver</param>
         public MailBoxPageMethods(IWebDriver wd)
         {
-            _webDriver = wd;
-            _wait = new WebDriverWait(wd, TimeSpan.FromSeconds(10));
-            Common = new CommonMethods(wd);
-            MailBox = new MailBoxPage(wd);
-            _mainPage = new MainPage(wd);
+            CommonMethod = new CommonMethods(wd);
+            MailBoxPage = new MailBoxPage(wd);
+            MainPage = new MainPage(wd);
         }
 
         /// <summary>
-        /// Открывает форму для написания письма.
-        /// </summary>
-        /// <returns><see cref="true"/>если открылась, <see cref="false"/> если нет.</returns>
-        public bool OpenWriteLetterForm()
-        {
-            Common.WaitLong.Until(d => MailBox.BtnWriteLetter.Displayed);
-            MailBox.BtnWriteLetter.Click();
-            Thread.Sleep(5000);
-            // return Common.WaitLong.Until(d => MailBox.newLetter.Subject.Displayed);
-            return true;
-        }
-
-        /// <summary>
+        /// Deprecated. Пример прогресса во времени. %)
         /// Ожидание исчезновения осьминога.
         /// </summary>
         /// <returns></returns>
         public void WaitDisappearsOctopus()
         {
-            // Common.WaitLong.Until(d => !MailBox.FuckingOctopusMailru.Displayed);
-            _wait.Until(d => !MailBox.FuckingOctopusMailru.Displayed);
+            // CommonMethod.WaitLong.Until(d => !MailBoxPage.FuckingOctopusMailru.Displayed);
+            try
+            {
+                CommonMethod.WaitIgnoreStaleNoSuch.Until(d => !MailBoxPage.FuckingOctopusMailru.Displayed);
+            }
+            catch (WebDriverTimeoutException)
+            {
+            }
+        }
+
+
+        #region 'Новое письмо'.
+        /// <summary>
+        /// Открывает форму заполнения полей нового письма.
+        /// </summary>
+        /// <returns><see cref="true"/>если открылась, <see cref="false"/> если нет.</returns>
+        public bool OpenWriteLetterForm()
+        {
+            CommonMethod.WaitPageReady();
+            CommonMethod.Wait.Until(d => MailBoxPage.BtnWriteLetter.Displayed);
+            // на случай вылезания виджета.
+            CommonMethod.SmartClick(MailBoxPage.BtnWriteLetter);
+            return CommonMethod.WaitIgnoreStaleNoSuch.Until(d => MailBoxPage.CreatingLetter.Subject.Displayed);
         }
 
         /// <summary>
-        /// Метода заполнения формы написания письма.
+        /// Заполнение полей на форме написания письма.
         /// </summary>
         /// <param name="addresser">Кому.</param>
         /// <param name="subject">Тема.</param>
@@ -68,53 +73,148 @@ namespace TestTaskMailru
         public void FillField(string addresser = "", string subject = "", string body = "")
         {
             if (addresser != string.Empty)
-                MailBox.newLetter.ToWhom.Clear();
-                MailBox.newLetter.ToWhom.SendKeys(addresser);
+                MailBoxPage.CreatingLetter.ToWhom.Clear();
+            MailBoxPage.CreatingLetter.ToWhom.SendKeys(addresser);
             if (subject != string.Empty)
-                MailBox.newLetter.Subject.Clear();
-                MailBox.newLetter.Subject.SendKeys(subject);
+                MailBoxPage.CreatingLetter.Subject.Clear();
+            MailBoxPage.CreatingLetter.Subject.SendKeys(subject);
             if (body != string.Empty)
-                MailBox.newLetter.Body.Clear();
-                MailBox.newLetter.Body.SendKeys(body);
-        }
-
-        /// <summary>
-        /// Выход из аккаунта MailBox.
-        /// </summary>
-        /// <returns></returns>
-        internal bool SignOut()
-        {
-            MailBox.LogOut.Click();
-            Common.WaitPageLoad(ConfigWD.UrlMainPage);
-            return Common.Wait.Until(d => _mainPage.SignInMailBox.EnterMailBoxLnk.Displayed);
+                MailBoxPage.CreatingLetter.Body.Clear();
+            MailBoxPage.CreatingLetter.Body.SendKeys(body);
         }
 
         /// <summary>
         /// Клик по кнопке "Отправить"
         /// </summary>
         /// <returns></returns>
-        public bool SendLetterClick()
+        public bool ToSendLetterClick()
         {
-            MailBox.newLetter.SendBtn.Click();
-            var res = Common.WaitLong.Until(d => MailBox.newLetter.FormSentSuccess.Displayed);
-            // Common.WaitLong.Until( d => !MailBox.newLetter.FormSentSuccess.Enabled);
+            MailBoxPage.CreatingLetter.SendBtn.Click();
+            var res = CommonMethod.Wait.Until(d => MailBoxPage.CreatingLetter.FormSentSuccess.Displayed);
+            // CommonMethod.WaitLong.Until( d => !MailBoxPage.newLetter.FormSentSuccess.Enabled);
             return res;
         }
 
-        public bool OpenInboxFolder()
+        /// <summary>
+        /// Email контакта на форме успешной отправки.
+        /// </summary>
+        /// <returns></returns>
+        public string SuccessSentContactEmail()
         {
-            MailBox.FldInbox.Click();
-            //Common.WaitPageLoad();
-            return Common.Wait.Until(d => Common.GetUrl().Contains("/inbox/"));
+            return MailBoxPage.SuccessSentFormContact.Text;
         }
 
-        public bool IsLetterExistInBox(string addresser = "", string subject = "", string body = "",)
-        { 
-            var letter = MailBox.Letters.First(d => d.Sender.Equals(addresser));
+        /// <summary>
+        /// Переход к отправленнному письму через линк на форме успешной отправки.
+        /// </summary>
+        public void ClickLinkSentLetter()
+        {
+            CommonMethod.SmartClick(MailBoxPage.SuccessSentFormLink);
+        }
+        #endregion
+
+        #region 'Навигация по папкам'.
+        /// <summary>
+        /// Переход в папку Входящие.
+        /// </summary>
+        /// <returns></returns>
+        public bool OpenInboxFolder()
+        {
+            MailBoxPage.FldInbox.Click();
+            //CommonMethod.WaitPageReady();
+            return IsOpenInboxFolder();
+        }
+
+        /// <summary>
+        /// Открыта ли папка Отправленные? 
+        /// </summary>
+        public bool IsOpenInboxFolder()
+        {
+            return CommonMethod.Wait.Until(d => CommonMethod.GetUrl().EndsWith("/inbox/"));
+        }
+
+        /// <summary>
+        /// Переход в папку Отправленные.
+        /// </summary>
+        public bool OpenSentFolder()
+        {
+            MailBoxPage.FldInbox.Click();
+            return IsOpenSentFolder();
+        }
+
+        /// <summary>
+        /// Открыта ли папка Отправленные?
+        /// </summary>
+        public bool IsOpenSentFolder()
+        {
+            CommonMethod.WaitPageReady();
+            return CommonMethod.Wait.Until(d => CommonMethod.GetUrl().Contains("/sent/"));
+        }
+        #endregion
+
+        #region 'Работа с письмами'
+        /// <summary>
+        /// Наличие письма с заданными параметрами в списке писем.
+        /// </summary>
+        /// <param name="email">Email контакта из письма</param>
+        /// <param name="subject">Тема письма</param>
+        /// <param name="body">Начало письма</param>
+        /// <returns>Результат сравнения переданных параметров и полей писем в текущей папке</returns>
+        public bool IsLetterExistInLettersList(string email = "", string subject = "", string body = "")
+        {
+            var letter = MailBoxPage.Letters.First(d => d.LetterSubject.Equals(subject));
             if (letter != null)
-                return (letter.Subject.Equals(subject) && letter.Body.Contains(body));
-            else 
+                return (letter.LetterEmail.Contains(email) && letter.LetterFirstBodyWords.Contains(body));
+            else
                 return false;
         }
+
+        /// <summary>
+        /// Тема письма.
+        /// </summary>
+        public string SubjectEmail()
+        {
+            return MailBoxPage.CurrentLetter.Subject.Text;
+        }
+
+        /// <summary>
+        /// Email получателя.
+        /// </summary>
+        public string RecipientsEmail()
+        {
+            return MailBoxPage.CurrentLetter.Recipients.Text;
+        }
+
+        /// <summary>
+        /// Автор письма.
+        /// </summary>
+        public string AuthorEmail()
+        {
+            return MailBoxPage.CurrentLetter.Author.Text;
+        }
+        
+        /// <summary>
+        /// Тело письма.
+        /// </summary>
+        public string BodyEmail()
+        {
+            return MailBoxPage.CurrentLetter.Body.Text;
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Выход из аккаунта MailBoxPage.
+        /// </summary>
+        /// <returns></returns>
+        internal bool SignOut()
+        {
+            MailBoxPage.LogOut.Click();
+            CommonMethod.Wait.Until(d => d.Url.EndsWith("from=logout"));
+            // CommonMethod.WaitPageReady(ConfigWD.Host);
+            return CommonMethod.Wait.Until(d => MainPage.LoginForm.EnterMailBoxLnk.Displayed);
+        }
+
+        
     }
 }

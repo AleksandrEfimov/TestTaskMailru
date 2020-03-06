@@ -9,65 +9,64 @@ using OpenQA.Selenium;
 
 namespace TestTaskMailru
 {
-    public class MainPage : Page
+    public class MainPage
     {
-
-        public Page Page;
-        public SignInMailBoxForm SignInMailBox;
+        private IWebDriver _wd;
+        /// <summary>
+        /// Реализует вход в почту.
+        /// </summary>
+        public LoginMailBoxForm LoginForm;
 
         /// <summary>
         /// Главная страница.
         /// </summary>
         /// <param name="wd"></param>
-        public MainPage(IWebDriver wd) : base(wd)
+        public MainPage(IWebDriver wd)
         {
-            Page = new Page(wd);
-            SignInMailBox = new SignInMailBoxForm(wd);
+            _wd = wd;
+            LoginForm = new LoginMailBoxForm(wd);
         }
 
         /// <summary>
         /// Класс описание формы для логина.
         /// </summary>
-        public class SignInMailBoxForm
+        public class LoginMailBoxForm
         {
-            private Page _page;
-            public SignInMailBoxForm(IWebDriver wd)
+            private IWebDriver _wd;
+            public LoginMailBoxForm(IWebDriver wd)
             {
-                _page = new Page(wd);
+                _wd = wd;
             }
 
             /// <summary>
             /// Поле для ввода логина.
             /// </summary>
-            public IWebElement loginInput => _page.FindElement(By.Id("mailbox:login"));
+            public IWebElement loginInput => _wd.FindElement(By.Id("mailbox:login"));
 
             /// <summary>
             /// Кнопка перехода к полю Пароль и Входа.
             /// </summary>
-            public IWebElement loginSubmitBtn => _page.FindElement(By.Id("mailbox:submit"));
+            public IWebElement loginSubmitBtn => _wd.FindElement(By.Id("mailbox:submit"));
 
             /// <summary>
             /// Поле для ввода пароля
             /// </summary>
-            public IWebElement passwordInput => _page.FindElement(By.Id("mailbox:password"));
+            public IWebElement passwordInput => _wd.FindElement(By.Id("mailbox:password"));
 
             /// <summary>
             /// Линк Вход
             /// </summary>
-            public IWebElement EnterMailBoxLnk => _page.FindElement(By.Id("PH_authLink"));
+            public IWebElement EnterMailBoxLnk => _wd.FindElement(By.Id("PH_authLink"));
 
             /// <summary>
             /// Линк Выход
             /// </summary>
-            public IWebElement LogOutLink => _page.FindElement(By.Id("PH_logoutLink"));
+            public IWebElement LogOutLink => _wd.FindElement(By.Id("PH_logoutLink"));
 
             /// <summary>
             /// Список доступных доменов.
             /// </summary>
-            public IWebElement DomainList => _page.FindElement(By.Id("mailbox:domain"));
-                 
+            public IWebElement DomainList => _wd.FindElement(By.Id("mailbox:domain"));
         }
-
-      
     }
 }

@@ -46,7 +46,7 @@ namespace TestTaskMailru
         /// Возвращает экземпляр _webDriver
         /// </summary>
         /// <returns></returns>
-        public static IWebDriver GetDriver()
+        IWebDriver GetDriver()
         {
             switch (ConfigWD.GetWebDriverType())
             {
@@ -55,7 +55,7 @@ namespace TestTaskMailru
                 case ConfigWD.TypeWD.Firefox:
                     return new FirefoxDriver();
                 default:
-                    throw new Exception("Не поддерживваемый тип драйвера");
+                    throw new Exception("Не поддерживаемый тип драйвера");
             }
         }
     }
